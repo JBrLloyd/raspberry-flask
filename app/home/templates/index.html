@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💡 Lights On!</title>
+</head>
+<body>
+  <div class="wrapper" style="width: 100%; height: 100%;">
+    <div class="light-widget" style="text-align: center;">
+      <h1>Are you ready to dance? 🕺</h1>
+      <div class="cycles-input" style="padding: 20px 0;">
+        <input type="text" name="numCycles" id="numCycles" placeholder="Number of Cycles">
+      </div>
+      <button class="lights-on-btn" id="lights-on-btn">Lights on 💡</button>
+    </div>
+  </div>
+
+  <script>
+    var lightBtn = document.getElementById('lights-on-btn');
+    
+    function startCycles() {
+    var numCycles = document.getElementById('numCycles').value;
+
+      fetch(`/api/lightsOn`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cycles: parseInt(numCycles)
+        })
+      }).then(function (response) {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      }).then(function (data) {
+        console.log(data);
+      }).catch(function (error) {
+        console.warn('Something went wrong.', error);
+      });
+    }
+
+    lightBtn.addEventListener("click", startCycles)
+  </script>
+</body>
+</html>
